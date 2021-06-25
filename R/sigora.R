@@ -41,7 +41,7 @@ sigora <-
         }
 
         hh <- NULL
-        jj <- grep("^L", names(GPSrepo), value = T)
+        jj <- grep("^L", names(GPSrepo), value = TRUE)
         weights <- 0
 
         # Mapping
@@ -68,19 +68,20 @@ sigora <-
         for (ind in 1:level) {
             v1 <- GPSrepo[[paste("L", ind, sep = "")]]
             com1 <- paste(
-                    "weights <- ",
-                    weighting.method,
-                    "(v1$degs[v1$gs[v1$GPS[, 1]]], v1$degs[v1$gs[v1$GPS[, 2]]])"
+                "weights <- ",
+                weighting.method,
+                "(v1$degs[v1$gs[v1$GPS[, 1]]], v1$degs[v1$gs[v1$GPS[, 2]]])"
             )
 
             eval(parse(text = com1))
 
             hh <- rbind(
                 hh,
-                cbind(v1$gs[v1$GPS[, 1]],
-                      v1$gs[v1$GPS[, 2]],
-                      v1$ps[v1$GPS[, 3]],
-                      round(weights * 100) / 100
+                cbind(
+                    v1$gs[v1$GPS[, 1]],
+                    v1$gs[v1$GPS[, 2]],
+                    v1$ps[v1$GPS[, 3]],
+                    round(weights * 100) / 100
                 )
             )
             rm(v1)
@@ -90,7 +91,7 @@ sigora <-
 
         if (markers == TRUE) {
             for (ind in 1:level) {
-                v1 <- GPSrepo[[paste("L", ind, sep = '')]]
+                v1 <- GPSrepo[[paste("L", ind, sep = "")]]
 
                 hh <- rbind(
                     hh,
@@ -148,7 +149,6 @@ sigora <-
         )
 
         detailed_results <- hhd
-
         rownames(detailed_results) <- NULL
 
         colnames(summary_results) <- c(
